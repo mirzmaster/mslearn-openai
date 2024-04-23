@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from openai import AzureOpenAI
 
 # Set to True to print the full response from OpenAI for each call
-printFullResponse = False
+printFullResponse = True
 
 
 def main():
