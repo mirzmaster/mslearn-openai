@@ -9,7 +9,7 @@ from openai import AzureOpenAI
 def main():
     try:
         # Flag to show citations
-        show_citations = False
+        show_citations = True
 
         # Get configuration settings 
         load_dotenv()
