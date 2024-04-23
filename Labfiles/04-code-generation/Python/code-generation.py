@@ -63,7 +63,7 @@ def call_openai_model(prompt, model, client):
     ]
 
     # Call the Azure OpenAI model
-    response = client.chat.completions.create(
+    response: AzureOpenAI = client.chat.completions.create(
         model=model,
         messages=messages,
         temperature=0.7,
