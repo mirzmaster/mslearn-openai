@@ -7,20 +7,20 @@ from openai import AzureOpenAI
 # Set to True to print the full response from OpenAI for each call
 printFullResponse = False
 
-def main(): 
-        
-    try: 
-    
+def main():
+
+    try:
+
         # Get configuration settings 
         load_dotenv()
         azure_oai_endpoint = os.getenv("AZURE_OAI_ENDPOINT")
         azure_oai_key = os.getenv("AZURE_OAI_KEY")
         azure_oai_deployment = os.getenv("AZURE_OAI_DEPLOYMENT")
-        
+
         # Configure the Azure OpenAI client
         client = AzureOpenAI(
-            azure_endpoint = azure_oai_endpoint, 
-            api_key=azure_oai_key,  
+            azure_endpoint = azure_oai_endpoint,
+            api_key=azure_oai_key,
             api_version="2024-02-15-preview"
             )
 
@@ -34,10 +34,10 @@ def main():
             if command.lower() == 'quit':
                 print('Exiting program...')
                 break
-            
+
             user_input = input('\nEnter a prompt: ')
             if command == '1' or command == '2':
-                file = open(file="../sample-code/function/function.py", encoding="utf8").read()                
+                file = open(file="../sample-code/function/function.py", encoding="utf8").read()
             elif command =='3':
                 file = open(file="../sample-code/go-fish/go-fish.py", encoding="utf8").read()
             else :
@@ -56,7 +56,18 @@ def call_openai_model(prompt, model, client):
     user_message = prompt
 
     # Format and send the request to the model
+    messages =[
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message},
+    ]
 
+    # Call the Azure OpenAI model
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0.7,
+        max_tokens=1000
+    )
 
     # Print the response to the console, if desired
     if printFullResponse:
@@ -67,5 +78,5 @@ def call_openai_model(prompt, model, client):
     results_file.write(response.choices[0].message.content)
     print("\nResponse written to result/app.txt\n\n")
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     main()
